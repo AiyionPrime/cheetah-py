@@ -16,3 +16,30 @@ contain their license texts at the files beginning.
 
 Publishing them adheres to the EULA shipped under
 `src/cheetah_py/vendor/v4_00/LICENSE.txt`.
+
+## Pending Scope
+
+### Phase 1
+- transparent architecture dependent import
+- document checksums of unaltered files
+- document update process (how to integrate future api versions)
+- test for expected constants, functions and classes
+- test for importability
+- test for checksum validity of vendored artifacts
+- explain chosen licenses and their scope in readme
+- invite totalphase's devs to the repository
+
+### Phase 2
+- ruff
+- mypy
+- provide typehints
+
+### Phase 3
+- publish to pypi upon tags
+- document where it got published
+- document how to install it
+
+### Phase 4
+- test for functionality on verified vendor hardware
+- report results publicly
+- document test setup
