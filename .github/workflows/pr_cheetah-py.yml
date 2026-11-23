@@ -1,0 +1,42 @@
+# Upon pull requests this workflow lints and runs tests against various python versions
+
+name: PR cheetah-py
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    env:
+      UV_SYSTEM_PYTHON: 1
+
+    steps:
+    - uses: actions/checkout@v7
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v7
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install uv
+      uses: astral-sh/setup-uv@v10.4.0
+      with:
+        enable-cache: true
+    - name: Install project
+      run: uv sync --all-extras --dev
+    - name: Lint with ruff
+      run: |
+        uv run ruff check
+    - name: Format
+      run: |
+        # formatter vs COM812 https://github.com/astral-sh/ruff/issues/9216
+        uv run ruff format --check --config "lint.extend-ignore = ['COM812']"
+    - name: Test with pytest
+      run: |
+        uv run pytest
+
